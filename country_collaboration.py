@@ -126,11 +126,18 @@ def plot_country_collaboration(countries, co_occurrences):
     plt.savefig("network.png")
 
 
+def main(n_countries):
+    """Función principal"""
+    affiliations = load_affiliations()
+    affiliations = remove_na_rows(affiliations)
+    affiliations = create_countries_column(affiliations)
+    countries_frequency = count_country_frequency(affiliations)
+    most_frequent_countries = select_most_frequente_countries(
+        countries_frequency, n_countries
+    )
+    co_occurrences = compute_co_occurrences(affiliations, most_frequent_countries)
+    plot_country_collaboration(most_frequent_countries, co_occurrences)
 
-affiliations = load_affiliations()
-affiliations = remove_na_rows(affiliations)
-affiliations = create_countries_column(affiliations)
-countries = count_country_frequency(affiliations)
-countries = select_most_frequente_countries(countries, n_countries=20)
-co_occurrences = compute_co_occurrences(affiliations, countries)
-plot_country_collaboration(countries, co_occurrences)
+
+if __name__ == "__main__":
+    main(n_countries=20)
